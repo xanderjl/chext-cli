@@ -77,21 +77,24 @@ inquirer
 
       let installer = "";
 
-      switch (starterBranch) {
-        case "with CMS (yarn only)":
-        case "typescript with CMS (yarn only)":
-          installer = "yarn install && cd studio && yarn install && cd ..";
+      switch (pkgManager) {
+        case "yarn":
+          switch (starterBranch) {
+            case "with CMS (yarn only)":
+            case "typescript with CMS (yarn only)":
+              console.log("SHOULD BE USING THE STUDIO INSTALL");
+              installer = "yarn install && cd studio && yarn install && cd ..";
+              break;
+            default:
+              installer = `yarn install`;
+              break;
+          }
+          break;
         default:
           installer = "npm install";
       }
 
-      switch (pkgManager) {
-        case "with CMS (yarn only)":
-        case "typescript with CMS (yarn only)":
-          installer = "yarn install && cd studio && yarn install && cd ..";
-        default:
-          installer = `yarn install`;
-      }
+      console.log({ installer });
 
       spinner.start();
 
