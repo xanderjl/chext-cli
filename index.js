@@ -19,8 +19,13 @@ inquirer
       type: "list",
       message: "Please select a starter variant:",
       name: "starterBranch",
-      choices: ["main", "sanity"],
-      default: "main",
+      choices: [
+        "vanilla chext",
+        "with CMS",
+        "typescript",
+        "typescript with CMS",
+      ],
+      default: "vanilla",
     },
     {
       type: "list",
@@ -32,7 +37,24 @@ inquirer
   ])
   .then(({ projectName, starterBranch, pkgManager }) => {
     let path = cwd + "/" + projectName;
-    let branch = starterBranch;
+    let branch = "";
+
+    switch (starterBranch) {
+      case "vanilla chext":
+        branch = "main";
+        break;
+      case "with CMS":
+        branch = "sanity";
+        break;
+      case "typescript":
+        branch = "typescript";
+        break;
+      case "typescript with CMS":
+        branch = "typescript-sanity";
+        break;
+      default:
+        branch = "main";
+    }
 
     const emitter = degit(`XanderJL/chext-starter#${branch}`, {
       verbose: true,
@@ -45,11 +67,30 @@ inquirer
     emitter.clone(path).then(() => {
       console.log("done");
 
-      let installer = "npm install";
-      if (pkgManager === "yarn") {
-        installer = `yarn install`;
+      let installer = "";
+
+      if (
+        starterBranch === "with CMS" ||
+        starterBranch === "typescript with CMS"
+      ) {
+        installer = "npm install && cd studio && npm install && cd ..";
+      } else {
+        installer = "npm install";
       }
+
+      if (pkgManager === "yarn") {
+        if (
+          starterBranch === "with CMS" ||
+          starterBranch === "typescript with CMS"
+        ) {
+          installer = "yarn install && cd studio && yarn install && cd ..";
+        } else {
+          installer = `yarn install`;
+        }
+      }
+
       spinner.start();
+
       exec(`cd ${projectName} && ${installer}`, (error, stdout, stderr) => {
         spinner.stop();
         console.log(stdout);
