@@ -82,7 +82,6 @@ inquirer
           switch (starterBranch) {
             case "with CMS (yarn only)":
             case "typescript with CMS (yarn only)":
-              console.log("SHOULD BE USING THE STUDIO INSTALL");
               installer = "yarn install && cd studio && yarn install && cd ..";
               break;
             default:
@@ -93,8 +92,6 @@ inquirer
         default:
           installer = "npm install";
       }
-
-      console.log({ installer });
 
       spinner.start();
 
