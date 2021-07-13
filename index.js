@@ -21,9 +21,9 @@ inquirer
       name: "starterBranch",
       choices: [
         "vanilla chext",
-        "with CMS",
+        "with CMS (yarn only)",
         "typescript",
-        "typescript with CMS",
+        "typescript with CMS (yarn only)",
       ],
       default: "vanilla",
     },
@@ -31,7 +31,15 @@ inquirer
       type: "list",
       message: "Select your package manager",
       name: "pkgManager",
-      choices: ["npm", "yarn"],
+      choices: ({ starterBranch }) => {
+        switch (starterBranch) {
+          case "with CMS (yarn only)":
+          case "typescript with CMS (yarn only)":
+            return ["yarn"];
+          default:
+            return ["npm", "yarn"];
+        }
+      },
       default: "npm",
     },
   ])
@@ -43,13 +51,13 @@ inquirer
       case "vanilla chext":
         branch = "main";
         break;
-      case "with CMS":
+      case "with CMS (yarn only)":
         branch = "sanity";
         break;
       case "typescript":
         branch = "typescript";
         break;
-      case "typescript with CMS":
+      case "typescript with CMS (yarn only)":
         branch = "typescript-sanity";
         break;
       default:
@@ -69,24 +77,20 @@ inquirer
 
       let installer = "";
 
-      if (
-        starterBranch === "with CMS" ||
-        starterBranch === "typescript with CMS"
-      ) {
-        installer = "npm install && cd studio && npm install && cd ..";
-      } else {
-        installer = "npm install";
+      switch (starterBranch) {
+        case "with CMS (yarn only)":
+        case "typescript with CMS (yarn only)":
+          installer = "yarn install && cd studio && yarn install && cd ..";
+        default:
+          installer = "npm install";
       }
 
-      if (pkgManager === "yarn") {
-        if (
-          starterBranch === "with CMS" ||
-          starterBranch === "typescript with CMS"
-        ) {
+      switch (pkgManager) {
+        case "with CMS (yarn only)":
+        case "typescript with CMS (yarn only)":
           installer = "yarn install && cd studio && yarn install && cd ..";
-        } else {
+        default:
           installer = `yarn install`;
-        }
       }
 
       spinner.start();

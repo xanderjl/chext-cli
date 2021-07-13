@@ -1,6 +1,6 @@
 {
   "name": "chext-cli",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "An opinionated Next.js starter",
   "author": "Xander Low <xander@xandydandy.com> (https://xandydandy.com)",
   "main": "index.js",
