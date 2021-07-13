@@ -1,0 +1,22 @@
+{
+  "name": "chext",
+  "version": "0.1.0",
+  "description": "An opinionated Next.js starter",
+  "author": "Xander Low <xander@xandydandy.com> (https://xandydandy.com)",
+  "main": "index.js",
+  "bin": "index.js",
+  "dependencies": {
+    "degit": "^2.8.4",
+    "inquirer": "^8.1.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node index.js"
+  },
+  "license": "MIT",
+  "keywords": ["next", "chext", "chext-starter"],
+  "homepage": "https://github.com/XanderJL/chext",
+  "bugs": {
+    "url": "https://github.com/XanderJL/chext/issues"
+  }
+}
