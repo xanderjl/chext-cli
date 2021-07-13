@@ -7,6 +7,15 @@ const { exec } = require("child_process");
 const cwd = process.cwd();
 const spinner = ora({ text: "Installing packages", color: "green" });
 
+const choiceMap = {
+  vanilla: "vanilla chext",
+  cms: "with CMS (yarn only)",
+  typescript: "typescript",
+  typescriptCms: "typescript with CMS (yarn only)"
+}
+
+const choices = Object.values(choiceMap)
+
 inquirer
   .prompt([
     {
@@ -19,12 +28,7 @@ inquirer
       type: "list",
       message: "Please select a starter variant:",
       name: "starterBranch",
-      choices: [
-        "vanilla chext",
-        "with CMS (yarn only)",
-        "typescript",
-        "typescript with CMS (yarn only)",
-      ],
+      choices,
       default: "vanilla",
     },
     {
@@ -33,8 +37,8 @@ inquirer
       name: "pkgManager",
       choices: ({ starterBranch }) => {
         switch (starterBranch) {
-          case "with CMS (yarn only)":
-          case "typescript with CMS (yarn only)":
+          case choiceMap.cms:
+          case choiceMap.typescriptCms:
             return ["yarn"];
           default:
             return ["npm", "yarn"];
@@ -51,13 +55,13 @@ inquirer
       case "vanilla chext":
         branch = "main";
         break;
-      case "with CMS (yarn only)":
+      case choiceMap.cms:
         branch = "sanity";
         break;
-      case "typescript":
+      case choiceMap.typescript:
         branch = "typescript";
         break;
-      case "typescript with CMS (yarn only)":
+      case choiceMap.typescriptCms:
         branch = "typescript-sanity";
         break;
       default:
@@ -80,8 +84,8 @@ inquirer
       switch (pkgManager) {
         case "yarn":
           switch (starterBranch) {
-            case "with CMS (yarn only)":
-            case "typescript with CMS (yarn only)":
+            case choiceMap.cms:
+            case choiceMap.typescriptCms:
               installer = "yarn install && cd studio && yarn install && cd ..";
               break;
             default:
