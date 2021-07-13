@@ -1,5 +1,14 @@
 # Chext
 
+## Local development
+
+```
+git clone <repo>
+cd <repo>
+npm install
+npm start
+```
+
 ## Uses
 
 - [Inquirer](https://www.npmjs.com/package/inquirer)
