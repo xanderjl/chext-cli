@@ -12,9 +12,9 @@ const choiceMap = {
   cms: "with CMS (yarn only)",
   typescript: "typescript",
   typescriptCms: "typescript with CMS (yarn only)"
-}
+};
 
-const choices = Object.values(choiceMap)
+const choices = Object.values(choiceMap);
 
 inquirer
   .prompt([
