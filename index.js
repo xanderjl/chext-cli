@@ -11,7 +11,7 @@ const choiceMap = {
   vanilla: "vanilla chext",
   cms: "with CMS (yarn only)",
   typescript: "typescript",
-  typescriptCms: "typescript with CMS (yarn only)"
+  typescriptCms: "typescript with CMS (yarn only)",
 };
 
 const choices = Object.values(choiceMap);
@@ -108,9 +108,12 @@ inquirer
         } else {
           console.log(
             "\x1b[32m",
-            `You're all set! run cd ${projectName} && ${
-              pkgManager === "yarn" ? "yarn" : "npm run"
-            } dev`
+            `You're all set! run cd ${projectName}${
+              starterBranch === choiceMap.cms ||
+              starterBranch === choiceMap.typescriptCms
+                ? " && yarn studio:init"
+                : ""
+            } && ${pkgManager === "yarn" ? "yarn" : "npm run"} dev`
           );
         }
       });
